@@ -35,7 +35,11 @@ class DBStorage:
                                              getenv("HBNB_MYSQL_DB")),
                                       pool_pre_ping=True)
         if getenv("HBNB_ENV") == "test":
-            Base.metadata.drop_all(self.__engine)
+           try:
+                Base.metadata.drop_all(self.__engine)
+           except Exception as e:
+                print(f"Error dropping tables: {e}")
+                
 
     def all(self, cls=None):
         """Query on the curret database session all objects of the given class.
